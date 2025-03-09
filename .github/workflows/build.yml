@@ -40,18 +40,9 @@ jobs:
 
       - name: Archive artifacts (Boostrap)
         # See https://github.com/actions/upload-artifact/commits
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
+        uses: actions/upload-artifact
         if: success()
         with:
           name: PackConverter CLI
           path: bootstrap/build/libs/PackConverter.jar
           if-no-files-found: error
-
-      - name: Publish to Maven Repository
-        if: ${{ success() && github.repository == 'GeyserMC/PackConverter' && github.ref_name == 'master' }}
-        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5
-        env:
-          OPENCOLLAB_USERNAME: ${{ vars.DEPLOY_USER }}
-          OPENCOLLAB_PASSWORD: ${{ secrets.DEPLOY_PASS }}
-        with:
-          arguments: publish
